@@ -1,1 +1,1 @@
-This is a gme made to be enjoyed int eh console!
+This is a gme made to be enjoyed in the console!
