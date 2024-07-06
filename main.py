@@ -1,3 +1,5 @@
+import random
+
 maze_width = 10
 maze_height = 10
 
@@ -9,6 +11,22 @@ end_pos = (maze_height - 1, maze_width - 1)
 player_pos = list(start_pos)
 
 maze[end_pos[0]][end_pos[1]] = 'E'
+
+num_portals = 3
+num_traps = 3
+
+def place_item(item_list, symbol):
+    while len(item_list) < num_portals:
+        pos = (random.randint(0, maze_height - 1), random.randint(0, maze_width - 1))
+        if pos not in item_list and pos != start_pos and pos != end_pos:
+            item_list.append(pos)
+            maze[pos[0]][pos[1]] = symbol
+
+portals = []
+traps = []
+
+place_item(portals, 'P')
+place_item(traps, 'T')
 
 def print_maze():
     temp_maze = [row.copy() for row in maze]
@@ -34,6 +52,16 @@ def move_player(direction):
 
     player_pos = new_pos
 
+def check_position():
+    global player_pos
+
+    if tuple(player_pos) in portals:
+        print("You found a portal! Teleporting...")
+        player_pos = list(random.choice(portals))
+
+    elif tuple(player_pos) in traps:
+        print("You hit a trap! Back to start...")
+        player_pos = list(start_pos)
 
 def game_loop():
     while True:
